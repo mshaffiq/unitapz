@@ -5,15 +5,23 @@ class AjaxController extends CI_Controller
 {
     public function ajaxPingServer()
     {
-        $hostname = 'google.com';
-        exec(sprintf('ping -c 1 -W 5 %s', escapeshellarg($hostname)), $res, $rval);
-        if ($rval === 0) {
-            echo 'Ping was successful';
-        } else {
-            echo 'Ping failed';
+        $hostname = [
+            'tauthapi.tekkis.my',
+            'api.tpay.com.my',
+            'tauth-staging.tekkis.my',
+            'merchant-staging.tverify.com.my',
+            'merchant-staging.tpay.com.my',
+            'checkout-staging.tpay.com.my'
+        ];
+        $data = [];
+        foreach ($hostname as $host) {
+            exec(sprintf('ping -c 1 -W 5 %s', escapeshellarg($host)), $res, $rval);
+            if ($rval === 0) {
+                $data[$host] = "success";
+            } else {
+                $data[$host] = "failed";
+            }
         }
-        foreach ($res as $line) {
-            echo $line . "\n";
-        }
+        echo json_encode($data);
     }
 }

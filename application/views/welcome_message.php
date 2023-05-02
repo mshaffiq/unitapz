@@ -10,8 +10,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
       $.ajax({
         url: 'ajaxController/ajaxPingServer',
         type: 'POST',
-        success: function(data) {
-          console.log(data);
+        success: function(apiData) {
+          var apiObj = $.parseJSON(apiData);
+          $.each(apiObj, function(index, value) {
+            var textId = index.replace(/\./g, '');
+            if (value == "success") {
+              $("#" + textId).html("UP!");
+              $("#" + textId).removeClass("text-danger").addClass("text-success");
+            } else if (value == "failed") {
+              $("#" + textId).html("DOWN!");
+              $("#" + textId).removeClass("text-success").addClass("text-danger");
+            }
+          });
         },
         error: function(xhr, status, error) {
           console.error(error);
@@ -45,7 +55,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h2 style="margin:auto;">t-Auth API<BR>(tauthapi.tekkis.my)</h2>
       </div>
       <div class="card-body">
-        <h2 class="card-title">Server is <span class="upText text-success">UP!</span></h3>
+        <h2 class="card-title">Server is <span class="upText text-success" id="tauthapitekkismy">UP!</span></h3>
       </div>
     </div>
     <div class="card" style="width:100%;margin-top:2rem;">
@@ -53,7 +63,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h2 style="margin:auto;">t-Pay API<BR>(api.tpay.com.my)</h2>
       </div>
       <div class="card-body">
-        <h2 class="card-title">Server is <span class="upText text-success">UP!</span></h3>
+        <h2 class="card-title">Server is <span class="upText text-success" id="apitpaycommy">UP!</span></h3>
       </div>
     </div>
     <div class="card" style="width:100%;margin-top:2rem;">
@@ -61,7 +71,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h2 style="margin:auto;">t-Auth Admin<BR>(tauth-staging.tekkis.my)</h2>
       </div>
       <div class="card-body">
-        <h2 class="card-title">Server is <span class="upText text-success">UP!</span></h3>
+        <h2 class="card-title">Server is <span class="upText text-success" id="tauth-stagingtekkismy">UP!</span></h3>
       </div>
     </div>
     <div class="card" style="width:100%;margin-top:2rem;">
@@ -69,7 +79,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h2 style="margin:auto;">t-Verify Admin<BR>(merchant-staging.tverify.com.my)</h2>
       </div>
       <div class="card-body">
-        <h2 class="card-title">Server is <span class="upText text-success">UP!</span></h3>
+        <h2 class="card-title">Server is <span class="upText text-success" id="merchant-stagingtverifycommy">UP!</span></h3>
       </div>
     </div>
     <div class="card" style="width:100%;margin-top:2rem;">
@@ -77,7 +87,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h2 style="margin:auto;">t-Pay Portal<BR>(merchant-staging.tpay.com.my)</h2>
       </div>
       <div class="card-body">
-        <h2 class="card-title">Server is <span class="upText text-success">UP!</span></h3>
+        <h2 class="card-title">Server is <span class="upText text-success" id="merchant-stagingtpaycommy">UP!</span></h3>
       </div>
     </div>
     <div class="card" style="width:100%;margin-top:2rem;">
@@ -85,7 +95,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <h2 style="margin:auto;">t-Pay Checkout<BR>(checkout-staging.tpay.com.my)</h2>
       </div>
       <div class="card-body">
-        <h2 class="card-title">Server is <span class="upText text-success">UP!</span></h3>
+        <h2 class="card-title">Server is <span class="upText text-success" id="checkout-stagingtpaycommy">UP!</span></h3>
       </div>
     </div>
   </div>
