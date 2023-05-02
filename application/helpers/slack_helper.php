@@ -4,7 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 if ( ! function_exists('shout'))
 {
 	function shout($payload, $channel = "", $username = "incoming-webhook") {
-        define('WEBHOOK_URL', 'https://hooks.slack.com/services/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');
+        define('WEBHOOK_URL', 'https://webhook.site/f3c2080a-353b-42ec-b0ed-ad9d2b502711');
         $msg = array(
             "text" => json_encode($payload),
             "channel" => "#".$channel,
