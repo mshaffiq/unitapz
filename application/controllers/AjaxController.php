@@ -42,10 +42,15 @@ class AjaxController extends CI_Controller
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, true);
             $response = curl_exec($curl);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             if ($response === false) {
                 $data[$host] = "failed";
             } else {
-                $data[$host] = "success";
+                if ($httpCode == 200) {
+                    $data[$host] = "success";
+                } else {
+                    $data[$host] = "failed";
+                }
             }
         }
         echo json_encode($data);exit;
