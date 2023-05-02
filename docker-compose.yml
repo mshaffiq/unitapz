@@ -1,0 +1,52 @@
+version: "3"
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: .docker/nginx-server.dockerfile
+    image: nginx:1.18
+    container_name: "unitapz-nginx"
+    ports:
+      - 8080:80
+    volumes:
+      - .:/var/www/html
+      - .docker/site.conf:/etc/nginx/conf.d/site.conf
+    environment: 
+      - TZ=Asia/Kuala_Lumpur
+    working_dir: /var/www/html
+    depends_on:
+      - php-fpm
+    networks: 
+      - unitapz
+
+  php-fpm:   
+    build:
+     context: .
+     dockerfile: .docker/php-server.dockerfile    
+    image:  php:7.4-fpm
+    container_name: "unitapz-php-fpm"
+    volumes:
+      - .:/var/www/html
+    working_dir: /var/www/html
+    networks: 
+      - unitapz
+
+  database:
+    image: "postgres:14.2"
+    container_name: "unitapz-database"
+    environment:
+      - POSTGRES_USER=makanikan
+      - POSTGRES_PASSWORD=M4k4n1Kan
+      - POSTGRES_DB=unitapz_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks: 
+      - unitapz
+           
+volumes:
+  data: {}
+
+networks:
+  unitapz: {}
