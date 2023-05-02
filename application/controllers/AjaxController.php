@@ -19,6 +19,7 @@ class AjaxController extends CI_Controller
             if ($rval === 0) {
                 $data[$host] = "success";
             } else {
+                shout("ALERT! " . $host . " is down!!!","mshaffiq");
                 $data[$host] = "failed";
             }
         }
@@ -44,11 +45,13 @@ class AjaxController extends CI_Controller
             $response = curl_exec($curl);
             $httpCode = curl_getinfo($curl, CURLINFO_RESPONSE_CODE);
             if ($response === false) {
+                shout("ALERT! " . $host . " is down!!!","mshaffiq");
                 $data[$host] = "failed";
             } else {
                 if ($httpCode == 200 || $httpCode == 307 || $httpCode ==302) {
                     $data[$host] = "success";
                 } else {
+                    shout("ALERT! " . $host . " is down!!!","mshaffiq");
                     $data[$host] = "failed";
                 }
             }
