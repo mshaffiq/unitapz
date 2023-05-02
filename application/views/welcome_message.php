@@ -5,6 +5,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
   $(document).ready(function() {
+
+    var userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.indexOf("iphone") > -1 || userAgent.indexOf("android") > -1 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      $("#serverCheckCard").show();
+    } else {
+      window.location.href = "<?php echo base_url("restrict") ?>";
+    }
+
     $("#checkServerBtn").click(function() {
       $(".upText").html("...");
       $.ajax({
@@ -36,7 +44,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <head>
   <meta charset="utf-8">
-  <title>Welcome to CodeIgniter</title>
+  <title>Welcome to Pinger</title>
 
   <link rel="stylesheet" href="<?php echo base_url("assets/papercss/css/paper.min.css") ?>">
 </head>
@@ -46,7 +54,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <h1>Pinger Demo</h1>
     <h2>Manual check tekkis server uptime</h2>
   </div>
-  <div class="paper container" style="width:100%;margin-top:1rem;">
+  <div id="serverCheckCard" class="paper container" style="width:100%;margin-top:1rem;display:none;">
     <button class="btn-success" id="checkServerBtn" style="margin-bottom:1rem;">
       <h2 style="margin:auto;">Check!</h2>
     </button>
