@@ -40,6 +40,7 @@ class AjaxController extends CI_Controller
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, "https://" . $host);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
             $response = curl_exec($curl);
             if ($response != false) {
                 $data[$host] = "success";
