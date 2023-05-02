@@ -7,7 +7,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
   $(document).ready(function() {
 
     var userAgent = navigator.userAgent.toLowerCase();
-    if (userAgent.indexOf("iphone") > -1 && userAgent.indexOf("android") > -1) {
+    if (userAgent.indexOf("iphone") > -1 || userAgent.indexOf("android") > -1) {
       $("#serverCheckCard").show();
     } else {
       window.location.href = "<?php echo base_url("restrict") ?>";
