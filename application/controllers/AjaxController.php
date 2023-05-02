@@ -24,4 +24,29 @@ class AjaxController extends CI_Controller
         }
         echo json_encode($data);
     }
+
+    public function ajaxCurlServer()
+    {
+        $hostname = [
+            'tauthapi.tekkis.my',
+            'api.tpay.com.my',
+            'tauth-staging.tekkis.my',
+            'merchant-staging.tverify.com.my',
+            'merchant-staging.tpay.com.my',
+            'checkout-staging.tpay.com.my'
+        ];
+        $data = [];
+        foreach ($hostname as $host) {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, "https://" . $host);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($curl);
+            if ($response === false) {
+                $data[$host] = "success";
+            } else {
+                $data[$host] = "failed";
+            }
+        }
+        echo json_encode($data);exit;
+    }
 }

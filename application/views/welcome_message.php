@@ -13,10 +13,34 @@ defined('BASEPATH') or exit('No direct script access allowed');
       window.location.href = "<?php echo base_url("restrict") ?>";
     }
 
-    $("#checkServerBtn").click(function() {
+    $("#pingServerBtn").click(function() {
       $(".upText").html("...");
       $.ajax({
         url: 'ajaxController/ajaxPingServer',
+        type: 'POST',
+        success: function(apiData) {
+          var apiObj = $.parseJSON(apiData);
+          $.each(apiObj, function(index, value) {
+            var textId = index.replace(/\./g, '');
+            if (value == "success") {
+              $("#" + textId).html("UP!");
+              $("#" + textId).removeClass("text-danger").addClass("text-success");
+            } else if (value == "failed") {
+              $("#" + textId).html("DOWN!");
+              $("#" + textId).removeClass("text-success").addClass("text-danger");
+            }
+          });
+        },
+        error: function(xhr, status, error) {
+          console.error(error);
+        }
+      });
+    });
+
+    $("#curlServerBtn").click(function() {
+      $(".upText").html("...");
+      $.ajax({
+        url: 'ajaxController/ajaxCurlServer',
         type: 'POST',
         success: function(apiData) {
           var apiObj = $.parseJSON(apiData);
@@ -55,8 +79,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <h2>Manual check tekkis server uptime</h2>
   </div>
   <div id="serverCheckCard" class="paper container" style="width:100%;margin-top:1rem;display:none;">
-    <button class="btn-success" id="checkServerBtn" style="margin-bottom:1rem;">
-      <h2 style="margin:auto;">Check!</h2>
+    <button class="btn-success" id="pingServerBtn" style="margin-bottom:1rem;">
+      <h2 style="margin:auto;">Check Ping!</h2>
+    </button>
+    <button class="btn-success" id="curlServerBtn" style="margin-bottom:1rem;">
+      <h2 style="margin:auto;">Check Curl!</h2>
     </button>
     <div class="card" style="width:100%;margin-top:2rem;">
       <div class="card-header">
